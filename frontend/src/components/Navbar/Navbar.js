@@ -27,12 +27,13 @@ const Navbar = () => {
                 <a href="#bio" className="navbar-item is-active">
                   Bio
                 </a>
+                {/* TODO
                 <a href="#projects" className="navbar-item">
                   Projects
                 </a>
                 <a href="#blog" className="navbar-item">
                   Blog
-                </a>
+                </a> */}
                 <span className="navbar-item">
                   <a href="#login" className="button is-info is-inverted">
                     <span className="icon">
