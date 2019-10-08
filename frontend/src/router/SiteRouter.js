@@ -1,7 +1,6 @@
 import React from 'react'
 import { Switch, Route,  } from "react-router-dom";
-import Login from '../components/Login/Login'
-import Portfolio from '../components/Portfolio/Portfolio'
+import { Login, Portfolio } from '../pages'
 
 const SiteRouter = () => {
     return (

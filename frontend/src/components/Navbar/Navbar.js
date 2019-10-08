@@ -26,13 +26,6 @@ const Navbar = () => {
             <div id="navbarMenuHeroB" className="navbar-menu">
               <div className="navbar-end">
                 <NavLink to="/" exact activeClassName="is-active" className="navbar-item">Bio</NavLink>
-                {/* TODO
-                <a href="#projects" className="navbar-item">
-                  Projects
-                </a>
-                <a href="#blog" className="navbar-item">
-                  Blog
-                </a> */}
                 <span className="navbar-item">
                   <NavLink to="/login" exact activeClassName="is-active" className="button is-info is-inverted">
                     <span className="icon">

@@ -2,8 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router } from "react-router-dom";
 import './App.scss';
 import SiteRouter from './router/SiteRouter'
-import Navbar from './components/Navbar/Navbar'
-import Footer from './components/Footer/Footer'
+import { Navbar, Footer } from './components'
 
 function App() {
   return (
