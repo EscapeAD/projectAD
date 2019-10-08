@@ -1,16 +1,18 @@
 import React from 'react';
+import { BrowserRouter as Router } from "react-router-dom";
 import './App.scss';
-
+import SiteRouter from './router/SiteRouter'
 import Navbar from './components/Navbar/Navbar'
-import Portfolio from './components/Portfolio/Portfolio'
 import Footer from './components/Footer/Footer'
 
 function App() {
   return (
     <section className="hero is-info is-large">
-      <Navbar />
-      <Portfolio />
-      <Footer />
+      <Router>
+        <Navbar />
+        <SiteRouter />
+        <Footer />
+      </Router>
     </section>
   );
 }
