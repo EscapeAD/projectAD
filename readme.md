@@ -1,7 +1,7 @@
 ## Project AD
 portfolio site revamp 
-[backend] - Go
-[Frontend] - React
+* [backend] - Go
+* [Frontend] - React
 
-# WireFrame
+# WireFrames
 Frontpage - https://wireframe.cc/Q8ef2U
