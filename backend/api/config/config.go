@@ -7,6 +7,7 @@ import (
 )
 
 var (
+	//PORT - api port
 	PORT = 0
 )
 
