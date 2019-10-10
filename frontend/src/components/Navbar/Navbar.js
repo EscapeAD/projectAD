@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from "react-router-dom";
 
 //font awesome
@@ -6,7 +6,8 @@ import { faTerminal, faAtom } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Navbar = () => {
-    return (
+  const [burgerMode, setBurger] = useState(false);
+  return (
     <div className="hero-head">
         <nav className="navbar">
           <div className="container">
@@ -17,13 +18,13 @@ const Navbar = () => {
                 </span>
                 <span>Adam Tse</span>
               </NavLink>              
-                <span className="navbar-burger burger" data-target="navbarMenuHeroB">
+              <span onClick={() => { setBurger(!burgerMode) }} className={`navbar-burger burger ${burgerMode ? 'is-active' : ''}`} data-target="navbarMenuHeroB">
                 <span></span>
                 <span></span>
                 <span></span>
               </span>
             </div>
-            <div id="navbarMenuHeroB" className="navbar-menu">
+            <div id="navbarMenuHeroB" className={`navbar-menu ${burgerMode ? 'is-active' : ''}`}>
               <div className="navbar-end">
                 <NavLink to="/" exact activeClassName="is-active" className="navbar-item">Bio</NavLink>
                 <span className="navbar-item">
