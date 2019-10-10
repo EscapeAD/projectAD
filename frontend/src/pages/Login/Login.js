@@ -3,9 +3,13 @@ import "./Login.scss";
 
 const Login = () => {
   const [fakeAuth, setAuth] = useState(false)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const fakeLoginHandler = (event) => {
-    event.preventDefault()
-    setAuth(true)
+    if (email.length > 0 && password.length > 0){
+      event.preventDefault()
+      setAuth(true)
+    }
   }
   return (
     <div className="hero-body">
@@ -21,6 +25,7 @@ const Login = () => {
                     type="email"
                     placeholder="Your Email"
                     autoFocus=""
+                    onInput={(event) => { setEmail(event.target.value)}}
                   />
                 </div>
               </div>
@@ -31,10 +36,11 @@ const Login = () => {
                     className="input is-large"
                     type="password"
                     placeholder="Your Password"
+                    onInput={(event) => { setPassword(event.target.value) }}
                   />
                 </div>
               </div>
-              <button onClick={fakeLoginHandler} className="button is-block is-info is-large is-fullwidth">
+              <button disabled={email.length <= 0 || password.length <= 0} onClick={fakeLoginHandler} className="button is-block is-info is-large is-fullwidth">
                 Login <i className="fa fa-sign-in" aria-hidden="true"></i>
               </button>
             </form>
