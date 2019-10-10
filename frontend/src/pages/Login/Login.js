@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Login.scss";
 
 const Login = () => {
+  const [fakeAuth, setAuth] = useState(false)
+  const fakeLoginHandler = (event) => {
+    event.preventDefault()
+    setAuth(true)
+  }
   return (
     <div className="hero-body">
       <div className="container has-text-centered">
         <div className="column is-4 is-offset-4">
           <div className="box">
+            <p>{fakeAuth ? "Not Authorized": ""}</p>
             <form>
               <div className="field">
                 <div className="control">
@@ -14,7 +20,7 @@ const Login = () => {
                     className="input is-large"
                     type="email"
                     placeholder="Your Email"
-                    autofocus=""
+                    autoFocus=""
                   />
                 </div>
               </div>
@@ -28,7 +34,7 @@ const Login = () => {
                   />
                 </div>
               </div>
-              <button className="button is-block is-info is-large is-fullwidth">
+              <button onClick={fakeLoginHandler} className="button is-block is-info is-large is-fullwidth">
                 Login <i className="fa fa-sign-in" aria-hidden="true"></i>
               </button>
             </form>
