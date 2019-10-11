@@ -3,6 +3,7 @@ package api
 import (
 	"escapead/projectAD/backend/api/config"
 	"escapead/projectAD/backend/api/router"
+	"escapead/projectAD/backend/auto"
 	"fmt"
 	"log"
 	"net/http"
@@ -11,6 +12,7 @@ import (
 // Run start server
 func Run() {
 	config.Load()
+	auto.Load()
 	fmt.Println("Online and Listening on port", config.PORT)
 	Listen(config.PORT)
 }
