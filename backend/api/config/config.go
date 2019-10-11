@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -9,8 +10,10 @@ import (
 )
 
 var (
-	//PORT - api port
+	// PORT - api port
 	PORT = 0
+	// DBDRIVER - DB UDBDRIVERRL
+	DBDRIVER = ""
 	// DBURL - DB URL
 	DBURL = ""
 )
@@ -29,4 +32,7 @@ func Load() {
 		// Default 9000
 		PORT = 9000
 	}
+	DBDRIVER = os.Getenv("DB_DRIVER")
+	DBURL = fmt.Sprintf("%s:%s@/%s?charset=utf8&parseTime=True&loc=Local", os.Getenv("DB_NAME"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_NAME"))
+
 }
