@@ -3,6 +3,7 @@ portfolio site revamp - with personal tools for unique experience
 * [backend] - Go
     * chi
     * jwt
+    * gorm
 * [Frontend] - React
 
 # WireFrames
