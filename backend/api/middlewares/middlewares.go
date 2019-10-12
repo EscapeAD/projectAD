@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-//SetMiddlewareLogger - http logger
+//SetMiddlewareLogger - http logger - USE chi logger instead
 func SetMiddlewareLogger(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		log.Printf("%s %s%s %s", r.Method, r.Host, r.RequestURI, r.Proto)

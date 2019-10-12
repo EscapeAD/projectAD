@@ -32,7 +32,7 @@ func SetupRoutes(r chi.Router) chi.Router {
 // SetupRoutesWithMiddleware - setup routes
 func SetupRoutesWithMiddleware(r chi.Router) chi.Router {
 	for _, route := range Load() {
-		r.MethodFunc(route.Method, route.URI, middlewares.SetMiddlewareLogger(middlewares.SetMiddlewareJSON(route.Handler)))
+		r.MethodFunc(route.Method, route.URI, middlewares.SetMiddlewareJSON(route.Handler))
 	}
 	return r
 }
