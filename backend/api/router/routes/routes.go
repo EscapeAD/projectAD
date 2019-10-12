@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"escapead/projectAD/backend/api/middlewares"
 	"net/http"
 
 	"github.com/go-chi/chi"
@@ -25,8 +26,13 @@ func SetupRoutes(r chi.Router) chi.Router {
 	for _, route := range Load() {
 		r.MethodFunc(route.Method, route.URI, route.Handler)
 	}
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("hi"))
-	})
+	return r
+}
+
+// SetupRoutesWithMiddleware - setup routes
+func SetupRoutesWithMiddleware(r chi.Router) chi.Router {
+	for _, route := range Load() {
+		r.MethodFunc(route.Method, route.URI, middlewares.SetMiddlewareLogger(middlewares.SetMiddlewareJSON(route.Handler)))
+	}
 	return r
 }
