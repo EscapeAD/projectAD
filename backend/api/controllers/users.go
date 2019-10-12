@@ -14,7 +14,22 @@ import (
 
 // GetUsers - GET all users
 func GetUsers(w http.ResponseWriter, r *http.Request) {
-	_response.JSON(w, http.StatusOK, map[string]string{})
+	db, err := database.Connect()
+	if err != nil {
+		_response.Error(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+
+	repo := crud.NewRepositoryUsersCRUD(db)
+	func(userRepository repository.UserRepository) {
+		users, err := userRepository.FindAll()
+		if err != nil {
+			_response.Error(w, http.StatusUnprocessableEntity, err)
+			return
+		}
+		w.Header().Set("Location", fmt.Sprintf("%s%s%d", r.Host, r.RequestURI, len(users)))
+		_response.JSON(w, http.StatusCreated, users)
+	}(repo)
 }
 
 // CreateUser - GET user
