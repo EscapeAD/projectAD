@@ -130,5 +130,27 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 // DeleteUser - Delete an user
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Delete User"))
+	userIDParam := chi.URLParam(r, "id") // from a route like /users/{id}
+	userID, err := strconv.ParseUint(userIDParam, 10, 32)
+	if err != nil {
+		_response.Error(w, http.StatusBadRequest, err)
+		return
+	}
+	db, err := database.Connect()
+	if err != nil {
+		_response.Error(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+
+	repo := crud.NewRepositoryUsersCRUD(db)
+
+	func(userRepository repository.UserRepository) {
+		_, err := userRepository.Delete(uint32(userID))
+		if err != nil {
+			_response.Error(w, http.StatusUnprocessableEntity, err)
+			return
+		}
+		w.Header().Set("Entity", fmt.Sprintf("%d", userID))
+		_response.JSON(w, http.StatusNoContent, "")
+	}(repo)
 }
