@@ -3,7 +3,6 @@ package auto
 import (
 	"escapead/projectAD/backend/api/database"
 	"escapead/projectAD/backend/api/models"
-	"escapead/projectAD/backend/api/utils/console"
 	"log"
 )
 
@@ -24,12 +23,7 @@ func Load() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = db.Debug().AutoMigrate(&models.User{}).Error
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = db.Debug().AutoMigrate(&models.Post{}).Error
+	err = db.Debug().AutoMigrate(&models.User{}, &models.Post{}).Error
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -38,16 +32,15 @@ func Load() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	for i, user := range users {
-		err = db.Debug().Model(&models.User{}).Create(&user).Error
+	for i, _ := range users {
+		err = db.Debug().Model(&models.User{}).Create(&users[i]).Error
 		if err != nil {
 			log.Fatal(err)
 		}
 		posts[i].AuthorID = users[i].ID
-		err = db.Debug().Model(&models.Post{}).Create(&posts[i].Author).Error
+		err = db.Debug().Model(&models.Post{}).Create(&posts[i]).Error
 		if err != nil {
 			log.Fatal(err)
 		}
-		console.Pretty(user)
 	}
 }
