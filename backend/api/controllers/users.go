@@ -49,6 +49,13 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		_response.Error(w, http.StatusUnprocessableEntity, err)
 		return
 	}
+	user.Prepare()
+	err = user.Validate("")
+	if err != nil {
+		_response.Error(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+
 	db, err := database.Connect()
 	if err != nil {
 		_response.Error(w, http.StatusUnprocessableEntity, err)

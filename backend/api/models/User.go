@@ -54,7 +54,7 @@ func (u *User) Validate(action string) error {
 			return errors.New("Required nickname")
 		}
 		if u.Email == "" {
-			return errors.New("Required nickname")
+			return errors.New("Required email")
 		}
 		if err := checkmail.ValidateFormat(u.Email); err != nil {
 			return errors.New("Invalid email")
@@ -65,7 +65,10 @@ func (u *User) Validate(action string) error {
 			return errors.New("Required nickname")
 		}
 		if u.Email == "" {
-			return errors.New("Required nickname")
+			return errors.New("Required email")
+		}
+		if u.Password == "" {
+			return errors.New("Required password")
 		}
 		if err := checkmail.ValidateFormat(u.Email); err != nil {
 			return errors.New("Invalid email")
