@@ -1,6 +1,7 @@
 package crud
 
 import (
+	"errors"
 	"escapead/projectAD/backend/api/models"
 	"escapead/projectAD/backend/api/utils/channels"
 
@@ -48,4 +49,25 @@ func (r *repositoryUsersCRUD) FindAll() ([]models.User, error) {
 		return users, nil
 	}
 	return nil, err
+}
+
+func (r *repositoryUsersCRUD) FindByID(uid uint32) (models.User, error) {
+	var err error
+	user := models.User{}
+	done := make(chan bool)
+	go func(ch chan<- bool) {
+		err = r.db.Debug().Model(&models.User{}).Where("id = ?", uid).Take(&user).Error
+		if err != nil {
+			ch <- false
+			return
+		}
+		ch <- true
+	}(done)
+	if channels.OK(done) {
+		return user, nil
+	}
+	if gorm.IsRecordNotFoundError(err) {
+		return models.User{}, errors.New("user not found")
+	}
+	return models.User{}, err
 }

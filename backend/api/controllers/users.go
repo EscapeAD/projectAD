@@ -10,6 +10,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strconv"
+
+	"github.com/go-chi/chi"
 )
 
 // GetUsers - GET all users
@@ -21,6 +24,7 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 	}
 
 	repo := crud.NewRepositoryUsersCRUD(db)
+
 	func(userRepository repository.UserRepository) {
 		users, err := userRepository.FindAll()
 		if err != nil {
@@ -65,7 +69,30 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 // GetUser - GET an user
 func GetUser(w http.ResponseWriter, r *http.Request) {
-	_response.JSON(w, http.StatusOK, map[string]string{})
+	userIDParam := chi.URLParam(r, "id") // from a route like /users/{id}
+	userID, err := strconv.ParseUint(userIDParam, 10, 32)
+
+	if err != nil {
+		_response.Error(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	db, err := database.Connect()
+	if err != nil {
+		_response.Error(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+
+	repo := crud.NewRepositoryUsersCRUD(db)
+
+	func(userRepository repository.UserRepository) {
+		user, err := userRepository.FindByID(uint32(userID))
+		if err != nil {
+			_response.Error(w, http.StatusUnprocessableEntity, err)
+			return
+		}
+		w.Header().Set("Location", fmt.Sprintf("%s%s%d", r.Host, r.RequestURI, user))
+		_response.JSON(w, http.StatusCreated, user)
+	}(repo)
 }
 
 // UpdateUser - Update an User
