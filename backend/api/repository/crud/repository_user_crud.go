@@ -4,6 +4,7 @@ import (
 	"errors"
 	"escapead/projectAD/backend/api/models"
 	"escapead/projectAD/backend/api/utils/channels"
+	"time"
 
 	"github.com/jinzhu/gorm"
 )
@@ -70,4 +71,27 @@ func (r *repositoryUsersCRUD) FindByID(uid uint32) (models.User, error) {
 		return models.User{}, errors.New("user not found")
 	}
 	return models.User{}, err
+}
+
+func (r *repositoryUsersCRUD) Update(uid uint32, user models.User) (int64, error) {
+	var rs *gorm.DB
+	done := make(chan bool)
+	go func(ch chan<- bool) {
+		rs = r.db.Debug().Model(&models.User{}).Where("id = ?", uid).Take(&user).UpdateColumns(
+			map[string]interface{}{
+				"nickname":   user.Nickname,
+				"email":      user.Email,
+				"updated_at": time.Now(),
+			},
+		)
+		ch <- true
+	}(done)
+	if channels.OK(done) {
+		if rs.Error != nil {
+			return 0, rs.Error
+		}
+		return rs.RowsAffected, nil
+	}
+
+	return 0, rs.Error
 }

@@ -73,7 +73,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	userID, err := strconv.ParseUint(userIDParam, 10, 32)
 
 	if err != nil {
-		_response.Error(w, http.StatusUnprocessableEntity, err)
+		_response.Error(w, http.StatusBadRequest, err)
 		return
 	}
 	db, err := database.Connect()
@@ -97,7 +97,35 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 
 // UpdateUser - Update an User
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Update an User"))
+	userIDParam := chi.URLParam(r, "id") // from a route like /users/{id}
+	userID, err := strconv.ParseUint(userIDParam, 10, 32)
+	if err != nil {
+		_response.Error(w, http.StatusBadRequest, err)
+		return
+	}
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		_response.Error(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	db, err := database.Connect()
+	if err != nil {
+		_response.Error(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	user := models.User{}
+	err = json.Unmarshal(body, &user)
+	repo := crud.NewRepositoryUsersCRUD(db)
+
+	func(userRepository repository.UserRepository) {
+		rows, err := userRepository.Update(uint32(userID), user)
+		if err != nil {
+			_response.Error(w, http.StatusUnprocessableEntity, err)
+			return
+		}
+		w.Header().Set("Location", fmt.Sprintf("%s%s%d", r.Host, r.RequestURI, rows))
+		_response.JSON(w, http.StatusCreated, rows)
+	}(repo)
 }
 
 // DeleteUser - Delete an user
