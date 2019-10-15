@@ -46,6 +46,16 @@ func (r *repositoryPostsCRUD) FindAll() ([]models.Post, error) {
 			ch <- false
 			return
 		}
+		if len(posts) > 0 {
+			for i, _ := range posts {
+				err = r.db.Debug().Model(&models.User{}).Where("id = ?", posts[i].AuthorID).Take(&posts[i].Author).Error
+				if err != nil {
+					ch <- false
+					return
+				}
+			}
+
+		}
 		ch <- true
 	}(done)
 	if channels.OK(done) {
@@ -54,13 +64,13 @@ func (r *repositoryPostsCRUD) FindAll() ([]models.Post, error) {
 	return nil, err
 }
 
-func (r *repositoryPostsCRUD) FindByID(uid uint32) (models.Post, error) {
+func (r *repositoryPostsCRUD) FindByID(pid uint64) (models.Post, error) {
 	var err error
 	post := models.Post{}
 	done := make(chan bool)
 	go func(ch chan<- bool) {
 		defer close(ch)
-		err = r.db.Debug().Model(&models.Post{}).Where("id = ?", uid).Take(&post).Error
+		err = r.db.Debug().Model(&models.Post{}).Where("id = ?", pid).Take(&post).Error
 		if err != nil {
 			ch <- false
 			return
@@ -76,12 +86,12 @@ func (r *repositoryPostsCRUD) FindByID(uid uint32) (models.Post, error) {
 	return models.Post{}, err
 }
 
-func (r *repositoryPostsCRUD) Update(uid uint32, post models.Post) (int64, error) {
+func (r *repositoryPostsCRUD) Update(pid uint64, post models.Post) (int64, error) {
 	var rs *gorm.DB
 	done := make(chan bool)
 	go func(ch chan<- bool) {
 		defer close(ch)
-		rs = r.db.Debug().Model(&models.Post{}).Where("id = ?", uid).Take(&models.Post{}).UpdateColumns(
+		rs = r.db.Debug().Model(&models.Post{}).Where("id = ?", pid).Take(&models.Post{}).UpdateColumns(
 			map[string]interface{}{
 				"title":      post.Title,
 				"content":    post.Content,
@@ -92,28 +102,32 @@ func (r *repositoryPostsCRUD) Update(uid uint32, post models.Post) (int64, error
 	}(done)
 	if channels.OK(done) {
 		if rs.Error != nil {
+			if gorm.IsRecordNotFoundError(rs.Error) {
+				return 0, errors.New("Post not found")
+			}
 			return 0, rs.Error
 		}
 		return rs.RowsAffected, nil
 	}
-
 	return 0, rs.Error
 }
 
-func (r *repositoryPostsCRUD) Delete(uid uint32) (int64, error) {
+func (r *repositoryPostsCRUD) Delete(pid uint64) (int64, error) {
 	var rs *gorm.DB
 	done := make(chan bool)
 	go func(ch chan<- bool) {
 		defer close(ch)
-		rs = r.db.Debug().Model(&models.Post{}).Where("id = ?", uid).Take(&models.Post{}).Delete(&models.Post{})
+		rs = r.db.Debug().Model(&models.Post{}).Where("id = ?", pid).Take(&models.Post{}).Delete(&models.Post{})
 		ch <- true
 	}(done)
 	if channels.OK(done) {
 		if rs.Error != nil {
+			if gorm.IsRecordNotFoundError(rs.Error) {
+				return 0, errors.New("Post not found")
+			}
 			return 0, rs.Error
 		}
 		return rs.RowsAffected, nil
 	}
-
 	return 0, rs.Error
 }

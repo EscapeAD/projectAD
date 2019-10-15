@@ -92,7 +92,7 @@ func GetPost(w http.ResponseWriter, r *http.Request) {
 	repo := crud.NewRepositoryPostsCRUD(db)
 
 	func(postRepository repository.PostsRepository) {
-		post, err := postRepository.FindByID(uint32(postID))
+		post, err := postRepository.FindByID(uint64(postID))
 		if err != nil {
 			_response.Error(w, http.StatusUnprocessableEntity, err)
 			return
@@ -125,7 +125,7 @@ func UpdatePost(w http.ResponseWriter, r *http.Request) {
 	repo := crud.NewRepositoryPostsCRUD(db)
 
 	func(postRepository repository.PostsRepository) {
-		rows, err := postRepository.Update(uint32(postID), post)
+		rows, err := postRepository.Update(uint64(postID), post)
 		if err != nil {
 			_response.Error(w, http.StatusUnprocessableEntity, err)
 			return
@@ -152,7 +152,7 @@ func DeletePost(w http.ResponseWriter, r *http.Request) {
 	repo := crud.NewRepositoryPostsCRUD(db)
 
 	func(postRepository repository.PostsRepository) {
-		_, err := postRepository.Delete(uint32(postID))
+		_, err := postRepository.Delete(uint64(postID))
 		if err != nil {
 			_response.Error(w, http.StatusUnprocessableEntity, err)
 			return

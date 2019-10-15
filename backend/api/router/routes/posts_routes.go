@@ -16,19 +16,19 @@ var postsRoutes = []Route{
 		Method:  http.MethodGet,
 		Handler: controllers.GetPosts,
 	},
-	// Route{
-	// 	URI:     "/posts/{id}",
-	// 	Method:  http.MethodGet,
-	// 	Handler: controllers.GetPost,
-	// },
-	// Route{
-	// 	URI:     "/posts/{id}",
-	// 	Method:  http.MethodPut,
-	// 	Handler: controllers.UpdatePost,
-	// },
-	// Route{
-	// 	URI:     "/posts/{id}",
-	// 	Method:  http.MethodDelete,
-	// 	Handler: controllers.DeletePost,
-	// },
+	Route{
+		URI:     "/posts/{id}",
+		Method:  http.MethodGet,
+		Handler: controllers.GetPost,
+	},
+	Route{
+		URI:     "/posts/{id}",
+		Method:  http.MethodPut,
+		Handler: controllers.UpdatePost,
+	},
+	Route{
+		URI:     "/posts/{id}",
+		Method:  http.MethodDelete,
+		Handler: controllers.DeletePost,
+	},
 }
