@@ -8,3 +8,4 @@
 backendv2/.gradle/
 backendv2/build/
 frontend/dist/
+backendv2/.vscode/

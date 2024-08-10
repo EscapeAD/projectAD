@@ -5,11 +5,11 @@ plugins {
 }
 
 group = 'itsadamtse.com'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(22)
+		languageVersion = JavaLanguageVersion.of(21)
 	}
 }
 
@@ -18,23 +18,29 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     
-    // Choose one of these database drivers
-    runtimeOnly 'org.postgresql:postgresql'
-    // or
+    runtimeOnly 'com.h2database:h2'
+    // If using PostgreSQL or MySQL, uncomment the relevant line and comment out the H2 line
+    // runtimeOnly 'org.postgresql:postgresql'
     // runtimeOnly 'mysql:mysql-connector-java'
+
+    // Explicitly add Servlet API dependency
+    compileOnly 'jakarta.servlet:jakarta.servlet-api:6.1.0'    
     
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testRuntimeOnly 'com.h2database:h2'
 }
-
 
 tasks.named('test') {
 	useJUnitPlatform()
