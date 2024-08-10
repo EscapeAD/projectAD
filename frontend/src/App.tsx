@@ -6,19 +6,15 @@ const App: React.FC = () => {
     name: "Adam",
     title: "Full Stack Developer",
     bio: "I craft robust and scalable full stack solutions with exceptional user experiences.",
-    age: 28,
-    experience: 5,
-    email: "adam@example.com",
     skills: [
-      { name: "React", level: "Expert" },
-      { name: "Node.js", level: "Advanced" },
-      { name: "TypeScript", level: "Intermediate" },
-      { name: "Python", level: "Advanced" },
-      { name: "AWS", level: "Intermediate" },
+      "Full Stack Development",
+      "Java",
+      "Spring Boot",
+      "DevOps",
+      "React Front End"
     ],
-    github: "https://github.com/adamdev",
-    linkedin: "https://linkedin.com/in/adamdev",
-    twitter: "https://twitter.com/adamdev"
+    github: "https://github.com/escapead",
+    linkedin: "#"  // This is now just a placeholder
   };
 
   return (
