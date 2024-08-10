@@ -31,8 +31,7 @@ const Profile: React.FC<ProfileProps> = ({
   title,
   bio,
   skills,
-  github,
-  linkedin
+  github
 }) => {
   const [showLogin, setShowLogin] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -105,7 +104,7 @@ const Profile: React.FC<ProfileProps> = ({
             <p className="text-xl mb-8">{bio}</p>
             
             <div className="mb-8">
-              <h3 className="text-green-300 mb-4 text-2xl">Quote of the day:</h3>
+              <h3 className="text-green-300 mb-4 text-2xl">Random Dev Wisdom:</h3>
               <div className="bg-gray-800 p-4 rounded-lg h-32 flex items-center">
                 <p className={`text-green-300 italic transition-opacity duration-500 ${fadeIn ? 'opacity-100' : 'opacity-0'}`}>
                   "{quote}"
