@@ -2,3 +2,5 @@
 ./backend/.env
 ./backend/backend
 ./frontend/dist
+./backendv2/build
+./backendv2/.gradle
