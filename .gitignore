@@ -4,3 +4,7 @@
 ./frontend/dist
 ./backendv2/build
 ./backendv2/.gradle
+.DS_Store
+backendv2/.gradle/
+backendv2/build/
+frontend/dist/
